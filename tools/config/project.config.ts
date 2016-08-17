@@ -7,7 +7,6 @@ import { SeedConfig } from './seed.config';
  * below.
  */
 export class ProjectConfig extends SeedConfig {
-
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
   constructor() {
@@ -30,35 +29,29 @@ export class ProjectConfig extends SeedConfig {
       ...this.APP_ASSETS,
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
-      { src: 'https://fonts.googleapis.com/css?family=Open+Sans:600', inject: true, vendor: false },
-      { src: 'https://fonts.googleapis.com/css?family=Comfortaa:700', inject: true, vendor: false },
-      { src: `${this.CSS_SRC}/shared/fonts/digit-regular/font.css`, inject: true, vendor: false }
+      // //fonts.googleapis.com/css , etc are in the index.html
+      { src: `${this.CSS_SRC}/fonts/digit-regular/font.css`, inject: true, vendor: false }
     ];
 
-    this.SYSTEM_CONFIG_DEV = [
-      ...this.SYSTEM_CONFIG_DEV,
-      {
-        paths: {
-          '@ngrx/store': `node_modules/@ngrx/store/index.js`
-        }
-      }
-    ]
+    this.SYSTEM_CONFIG_DEV.packageConfigPaths = 
+    this.SYSTEM_CONFIG_DEV.packageConfigPaths.concat(
+      "/node_modules/@ngrx/*/package.json"
+    );
 
-    this.SYSTEM_CONFIG = [
-      ...this.SYSTEM_CONFIG,
-      {
-        packages: {
-          '@ngrx/core': {
-            main: 'index.js',
-            format: 'cjs'
-          },
-          '@ngrx/store': {
-            main: 'index.js',
-            format: 'cjs'
-          }
-        }
+    Object.assign(this.SYSTEM_CONFIG_DEV.paths, {
+      '@ngrx/store': `node_modules/@ngrx/store/index.js`
+    });
+
+    Object.assign(this.SYSTEM_CONFIG.packages, {
+      '@ngrx/core': {
+        main: 'index.js',
+        format: 'cjs'
+      },
+      '@ngrx/store': {
+        main: 'index.js',
+        format: 'cjs'
       }
-    ];
+    });
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });

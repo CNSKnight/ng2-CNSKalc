@@ -6,16 +6,13 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 
-import { AboutModule } from './+about/about.module';
-import { HomeModule } from './+home/home.module';
+import { CalcModule } from './calc/calc.module';
 import { SharedModule } from './shared/shared.module';
-import { calculatorReducer } from './calc/services/calc.reducer.ts';
-import { Store, StoreModule } from '@ngrx/store';
+// import { Store } from '@ngrx/store';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes),
-   AboutModule, HomeModule, SharedModule.forRoot(),
-   StoreModule.provideStore({ calculatorR: calculatorReducer }, { stack: [0] })],
+    CalcModule, SharedModule.forRoot()],
   declarations: [AppComponent],
   providers: [{
     provide: APP_BASE_HREF,

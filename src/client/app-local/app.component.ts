@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { Config, NavbarComponent, ToolbarComponent } from './shared/index';
+import { Config } from './shared/index';
+import { CalculatorComponent } from './calc/index';
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the
@@ -10,7 +11,7 @@ import { Config, NavbarComponent, ToolbarComponent } from './shared/index';
   moduleId: module.id,
   selector: 'sd-app',
   templateUrl: 'app.component.html',
-  directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
+  directives: [ROUTER_DIRECTIVES, CalculatorComponent]
 })
 
 export class AppComponent {

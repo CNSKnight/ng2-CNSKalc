@@ -1,0 +1,134 @@
+/*
+* 
+*/
+
+.container {
+    background-color: rgb(167, 215, 150);
+    font-family: "Open Sans";
+    padding: 1% 0;
+    display: flex;
+    height: 100vh;}
+
+.calculator {
+  position: relative;
+  width: 400px;
+  height: 450px;
+  margin: 1% auto;
+  padding: 8px 20px;
+  background-color: #F2F2F2;
+  border-radius: 10px;
+  border-bottom: 4px solid #c6c5c6;
+  box-shadow: 0px 10px 28px 2px rgba(0, 0, 0, 0.4);
+}
+
+.brand {
+  width: 100%;
+  height: 30px;
+  font-family: 'Comfortaa';
+  font-size: 18px;
+  color: #9b9b9b;
+  text-align: center;
+}
+
+.display {
+  font-family: 'digifaceregular';
+  position: relative;
+  width: 100%;
+  height: 70px;
+  background-color: #1c1c1c;
+  margin: auto;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  border: 1px solid #bec0c2;
+  color: #fff;
+  font-size: 46px;
+  padding: 11px;
+  letter-spacing: -4px;
+}
+
+.display-digits {
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  top: 0;
+  right: 8px;
+  padding: 11px;
+  color: #fff;
+  letter-spacing: 3px;
+  text-align: right;
+  z-index: 1;
+}
+
+.dot:after {
+  content: ".";
+  display: inline-block;
+  letter-spacing: -4px;
+  text-indent: -7px;
+}
+
+.display:after {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  content: "8.8.8.8.8.8.8.8.8.8.8.8.";
+  padding: 11px;
+  color: #353535;
+  letter-spacing: -1px;
+  text-align: right;
+}
+
+.button-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  background-color: rgba(100, 200, 100, 0);
+}
+
+.btn-row {
+  width: 100%;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.btn-col {
+  font-size: 18px;
+  padding: 9px 0;
+  text-align: center;
+  color: #666;
+  width: 75px;
+  height: 45px;
+  margin: 0 20px 0 0;
+  background-color: #f4f4f4;
+  border: 1px solid #e4e4e4;
+  border-radius: 4px;
+  float: left;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-user-select: none;
+  transition: all 150ms;
+}
+
+.btn-col-2 {
+  width: 170px;
+}
+
+.btn-col:last-child {
+  margin-right: 0px;
+}
+
+.btn-col:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.btn-col:active {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.footer{
+  position: fixed;
+  width: 100%;
+  min-height: 50px;
+  background-color: black;
+  color: white;
+  bottom: 0;
+}

@@ -115,7 +115,7 @@ export class SeedConfig {
    * The default directory is `app`.
    * @type {string}
    */
-  BOOTSTRAP_DIR = 'app';
+  BOOTSTRAP_DIR = 'app-local';
 
   /**
    * The directory where the client files are located.
@@ -280,7 +280,7 @@ export class SeedConfig {
    * @type {InjectableDependency[]}
    */
   APP_ASSETS: InjectableDependency[] = [
-    { src: `${this.CSS_SRC}/main.${ this.getInjectableStyleExtension() }`, inject: true, vendor: false },
+    { src: `${this.CSS_SRC}/main.${this.getInjectableStyleExtension()}`, inject: true, vendor: false },
   ];
 
   /**
@@ -482,7 +482,7 @@ export class SeedConfig {
    * @param {any} pluginKey The object key to look up in PLUGIN_CONFIGS.
    */
   getPluginConfig(pluginKey: string): any {
-    if (this.PLUGIN_CONFIGS[ pluginKey ]) {
+    if (this.PLUGIN_CONFIGS[pluginKey]) {
       return this.PLUGIN_CONFIGS[pluginKey];
     }
     return null;
