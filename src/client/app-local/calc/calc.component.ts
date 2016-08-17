@@ -4,8 +4,6 @@
 // CNSKnight@dharmiWeb.net
 // ```
 
-// # CalcDisplay Component
-// # Calculator Component
 import {
   Component,
   OnInit,
@@ -22,21 +20,23 @@ import { Store } from '@ngrx/store';
 import { CalculatorI } from './services/calc.store';
 import { CalculatorService } from './services/calc.service';
 
+// # CalcDisplay Component
 @Component({
   selector: 'calc-disp',
   template: '{{calcR.display}}'
 })
 
-class CalcDisplay {
+class CalcDisplayComponent {
   @Input() calcR: CalculatorI;
 }
 
+// # Calculator Component
 @Component({
   moduleId: module.id,
-  selector: 'calculator',
+  selector: 'calc-comp',
   viewProviders: [CalculatorService],
   templateUrl: 'calc.html',
-  directives: [CalcDisplay],
+  directives: [CalcDisplayComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['calc.component.css'],
   encapsulation: ViewEncapsulation.None
@@ -54,37 +54,37 @@ export class CalculatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // -NO- this will create a new observer
-    // bind to our observable as needed
-    // this.calcR.subscribe((state: CalculatorI) => {
-    //   this.currentDisplay = state.display;
-    //   console.log('Displaying: '+this.currentDisplay);
-    // });
-
-    this.calcService.initializeStore();
+    return;
   }
 
   ngOnChanges(changed: any) {
     return;
   }
 
-  allClear() {
-    this.calcService.clearAll();
-  }
-
-  clearEntry() {
-    this.calcService.clearEntered();
-  }
-
-  addDigit(event: any) {
-    this.calcService.addDigit(event.target.getAttribute('data-value'));
-  }
-
-  setOperator(event: any) {
-    this.calcService.setOperator(event.target.getAttribute('data-value'));
-  }
-
-  doCalc() {
-    this.calcService.calculate();
+  onButtonClick(event: any) {
+    let attrs = Array.prototype.slice.call(event.target.attributes);
+    attrs.forEach((item:any, idx:number) => {
+      switch (item.name) {
+        case 'data-action':
+          switch (item.value) {
+            case 'AC':
+              this.calcService.clearAll();
+              break;
+            case 'CE':
+              this.calcService.clearEntered();
+              break;
+            case 'calc':
+              this.calcService.calculate();
+              break;
+          }
+          break;
+        case 'data-oper':
+          this.calcService.setOperator(item.value);
+          break;
+        case 'data-digit':
+          this.calcService.addDigit(item.value);
+          break;
+      }
+    });
   }
 }

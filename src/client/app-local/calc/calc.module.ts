@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.provideStore({ calculatorR: calculatorReducer }, { stack: [], display: '0' })
+        StoreModule.provideStore({ calculatorR: calculatorReducer })
     ],
     declarations: [CalculatorComponent],
     exports: [CalculatorComponent],

@@ -21,54 +21,49 @@ const OVERRUN_LIMIT = 12;
 @Injectable()
 export class CalculatorService {
   // this will be picked up by actors whishing to subscribe
-  calcR: Observable<CalculatorI>;
+  calcR: Observable<any>;
   private lastState: CalculatorI;
+
+  // must be a fresh Object each request
+  getInitState() {
+    let initState: CalculatorI = {
+      stack: [],
+      leftNum: null,
+      operator: '',
+      rightNum: null,
+      result: null,
+      display: '0',
+      isCalc: false
+    };
+
+    return initState;
+  }
 
   // Inject the `Store` into the constructor - no type
   constructor(private store: Store<Object>) {
-
     // Bind a local as an observable to CalculatorReducer
     this.calcR = store.select('calculatorR');
-    this.lastState = {stack:[]};
     this.calcR.subscribe(state => {
       this.lastState = state;
     });
-  }
 
-  initializeStore() {
-    this.store.dispatch({
-      type: 'INITIALIZE',
-      payload: {
-        stack: [],
-        leftNum: '',
-        operator: '',
-        rightNum: '',
-        result: '',
-        display: '0'
-      }
-    });
+    // cannot be a const and clone successfully
 
-    return this;
+    this.lastState = this.getInitState();
+    this.initializeStore();
   }
 
   clearAll() {
-
     this.store.dispatch({
       type: 'ALL_CLEAR',
-      payload: {
-        stack: [],
-        leftNum: '',
-        operator: '',
-        rightNum: '',
-        result: '',
-        display: '0'
-      }
+      payload: this.getInitState()
     });
   }
 
   clearEntered() {
     let state = this.getState();
-    state.stack = [0];
+    state.stack = [];
+    state.display = '';
     this.store.dispatch({
       type: 'CLEAR_ENTRY',
       payload: state
@@ -78,8 +73,8 @@ export class CalculatorService {
   addDigit(digit: string) {
     let state = this.getState();
     let dotAt = this.hasDecimal(state.stack);
-    if (dotAt != -1) {
-      if (digit === '.' || dotAt == PRECISION) {
+    if (dotAt !== -1) {
+      if (digit === '.' || dotAt === PRECISION) {
         return;
       }
     }
@@ -88,7 +83,12 @@ export class CalculatorService {
       return;
     }
 
-    state.stack.push(digit);
+    if (digit === '.' && !state.stack.length) {
+      state.stack.push('0','.');
+    } else {
+      state.stack.push(digit);
+    }
+
     state.display = state.stack.join('');
 
     this.store.dispatch({
@@ -96,24 +96,16 @@ export class CalculatorService {
       payload: state
     });
   }
-
-  hasDecimal(stack: string[]) {
-    if (!stack.length) return 0;
-    let stackR = stack.reverse();
-    return (stackR.indexOf('.'));
-  }
-
-  willOverrun(stack: string[]) {
-    if (!stack.length || !!! ~stack.indexOf('.')) return false;
-    let dotAt = ~stack.reverse().indexOf('.');
-    return (dotAt == OVERRUN_LIMIT);
-  }
-
   setOperator(oper: string) {
     let state = this.getState();
-    state.operator = oper;
-    state.leftNum = +state.stack.join('');
-    state.stack = [];
+    if (oper === '-' && !state.stack.length) {
+      state.stack.push(oper);
+    } else {
+      state.operator = oper;
+      state.leftNum = +state.stack.join('');
+      state.stack = [];
+    }
+
     this.store.dispatch({
       type: 'SET_OPERATOR',
       payload: state
@@ -144,15 +136,18 @@ export class CalculatorService {
         break;
     }
 
-    state.result = null;
-    if (typeof result !== 'number') {
+    if (typeof result !== 'number' || result === Infinity || result === NaN) {
+      state.result = null;
       state.stack.length = 0;
       state.display = 'NaN';
+      state.isCalc = false;
     } else {
+      result = +result.toPrecision(PRECISION + 1);
       state.stack = result.toString().split('');
       state.leftNum = result;
       state.rightNum = null;
-      state.display = result.toString().slice(0, OVERRUN_LIMIT);
+      state.display = result.toString();
+      state.isCalc = true;
     }
 
     this.store.dispatch({
@@ -162,7 +157,29 @@ export class CalculatorService {
   }
 
 
-  getState() {
+  private initializeStore() {
+    this.store.dispatch({
+      type: 'INITIALIZE',
+      payload: this.getInitState()
+    });
+  }
+
+  private hasDecimal(stack: string[]) {
+    if (!stack.length) return -1;
+    let chkStack = stack.concat([]);
+    return (chkStack.reverse().indexOf('.'));
+  }
+
+// return true if overall len = OVERRUN_LIMIT
+// or if precision alread at PRECISION
+  private willOverrun(stack: string[]) {
+    if (stack.length+1 > OVERRUN_LIMIT) return true;
+    let chkStack = stack.concat([]);
+    let dotAt = ~chkStack.reverse().indexOf('.');
+    return (dotAt === PRECISION);
+  }
+
+  private getState() {
     return Object.assign({}, this.lastState);
 
     // let state: CalculatorI;

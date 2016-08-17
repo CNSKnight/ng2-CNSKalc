@@ -7,4 +7,5 @@ export interface CalculatorI {
   rightNum?: number;
   result?: number;
   display?: string;
+  isCalc: boolean;
 };

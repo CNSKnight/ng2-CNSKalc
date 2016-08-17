@@ -477,3 +477,6 @@ You can follow the [Angular 2 change log here](https://github.com/angular/angula
 # License
 
 MIT
+
+# Attributions
+- Shoutout to @golle404 for the awesome calc graphix

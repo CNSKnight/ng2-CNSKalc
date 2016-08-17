@@ -8,11 +8,11 @@ import { CalculatorI } from './calc.store';
 export const calculatorReducer = (state: CalculatorI, {type, payload}) => {
 
     // Debug stuff
-    console.log('---calc.reducer')
-    console.log('calculator reducer processing type: ', type);
-    console.log('payload: ', payload);
-    console.log('state: ', state);
-    console.log('---');
+    // console.log('---calc.reducer')
+    // console.log('calculator reducer processing type: ', type);
+    // console.log('payload: ', payload);
+    // console.log('state: ', state);
+    // console.log('---');
 
     switch (type) {
         case 'INITIALIZE':

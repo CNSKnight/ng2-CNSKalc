@@ -33,10 +33,10 @@ export class ProjectConfig extends SeedConfig {
       { src: `${this.CSS_SRC}/fonts/digit-regular/font.css`, inject: true, vendor: false }
     ];
 
-    this.SYSTEM_CONFIG_DEV.packageConfigPaths = 
-    this.SYSTEM_CONFIG_DEV.packageConfigPaths.concat(
-      "/node_modules/@ngrx/*/package.json"
-    );
+    this.SYSTEM_CONFIG_DEV.packageConfigPaths =
+      this.SYSTEM_CONFIG_DEV.packageConfigPaths.concat(
+        '/node_modules/@ngrx/*/package.json'
+      );
 
     Object.assign(this.SYSTEM_CONFIG_DEV.paths, {
       '@ngrx/store': `node_modules/@ngrx/store/index.js`
