@@ -41,8 +41,11 @@ export class CalculatorService {
 
   // Inject the `Store` into the constructor - no type
   constructor(private store: Store<Object>) {
-    // Bind a local as an observable to CalculatorReducer
+    // Bind a local as an observable of the CalculatorReducer
     this.calcR = store.select('calculatorR');
+
+    // Subscribe to same and maintain the "lastState" for local use
+    // #uni-directional-data-flow #immutable-state
     this.calcR.subscribe(state => {
       this.lastState = state;
     });
