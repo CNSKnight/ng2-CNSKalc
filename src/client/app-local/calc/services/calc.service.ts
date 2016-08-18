@@ -32,7 +32,7 @@ export class CalculatorService {
       operator: '',
       rightNum: null,
       result: null,
-      display: '0',
+      display: '',
       isCalc: false
     };
 
@@ -158,9 +158,11 @@ export class CalculatorService {
 
 
   private initializeStore() {
+    let state = this.getInitState();
+    state.display = '01134';
     this.store.dispatch({
       type: 'INITIALIZE',
-      payload: this.getInitState()
+      payload: state
     });
   }
 
